@@ -124,12 +124,11 @@ export const Footer = () => {
           <h4 className="text-white font-display font-semibold mb-6 uppercase tracking-widest text-xs">Contact</h4>
           <ul className="space-y-4">
             <li className="text-warm-gray/50 text-sm">hancedagondon@gmail.com</li>
-            <li className="text-warm-gray/50 text-sm">Based in the Digital Ether</li>
           </ul>
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 flex flex-col md:row justify-between items-center text-xs text-warm-gray/30">
-        <p>© {new Date().getFullYear()} Vibe & Logic. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Hance Dagondon. All rights reserved.</p>
         <p className="mt-2 md:mt-0 italic">"Designed with intention. Built with feeling."</p>
       </div>
     </footer>
