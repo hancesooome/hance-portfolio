@@ -128,11 +128,18 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                   </div>
                 </div>
 
-                <div className="pt-8 border-t border-white/5">
-                  <button className="w-full py-4 bg-orange-vibrant text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-orange-vibrant/90 transition-all">
-                    Live Project <ExternalLink size={18} />
-                  </button>
-                </div>
+                {project.link && (
+                  <div className="pt-8 border-t border-white/5">
+                    <a
+                      href={project.link.startsWith('http') ? project.link : `https://${project.link}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center gap-2 py-4 bg-orange-vibrant text-white rounded-xl font-bold hover:bg-orange-vibrant/90 transition-all"
+                    >
+                      Live Project <ExternalLink size={18} />
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>

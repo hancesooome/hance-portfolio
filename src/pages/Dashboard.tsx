@@ -18,7 +18,8 @@ export const Dashboard = () => {
     image: '',
     problem: '',
     process: '',
-    outcome: ''
+    outcome: '',
+    link: ''
   });
   const [loading, setLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
@@ -66,7 +67,8 @@ export const Dashboard = () => {
       image: '', // Start with empty image
       problem: '',
       process: '',
-      outcome: ''
+      outcome: '',
+      link: ''
     });
     setToolsInput('');
     setIsModalOpen(true);
@@ -108,13 +110,13 @@ export const Dashboard = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (project: Project) => {
     if (!confirm("Are you sure you want to delete this project?")) return;
     try {
       if (isSupabaseConfigured) {
-        await supabaseService.deleteProject(id);
+        await supabaseService.deleteProject(project.id, project.image);
       } else {
-        const response = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+        const response = await fetch(`/api/projects/${project.id}`, { method: 'DELETE' });
         if (!response.ok) throw new Error("Failed to delete via API");
       }
       fetchProjects();
@@ -215,7 +217,7 @@ export const Dashboard = () => {
                 <button onClick={() => handleEdit(project)} className="p-3 bg-white/5 text-white/50 rounded-xl hover:bg-white/10 transition-all">
                   <Edit2 size={20} />
                 </button>
-                <button onClick={() => handleDelete(project.id)} className="p-3 bg-red-500/20 text-red-500 rounded-xl hover:bg-red-500/30 transition-all">
+                <button onClick={() => handleDelete(project)} className="p-3 bg-red-500/20 text-red-500 rounded-xl hover:bg-red-500/30 transition-all">
                   <Trash2 size={20} />
                 </button>
               </div>
@@ -341,6 +343,16 @@ export const Dashboard = () => {
                   value={editForm.description || ''}
                   onChange={e => setEditForm({...editForm, description: e.target.value})}
                   placeholder="Brief overview..."
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-mono text-warm-gray/30 uppercase tracking-widest">Live Project Link (optional)</label>
+                <input
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-vibrant/50 transition-all"
+                  value={editForm.link || ''}
+                  onChange={e => setEditForm({ ...editForm, link: e.target.value })}
+                  placeholder="https://your-project-url.com"
                 />
               </div>
 

@@ -44,7 +44,26 @@ export const supabaseService = {
     if (error) throw error;
   },
 
-  async deleteProject(id: string): Promise<void> {
+  async deleteProject(id: string, imageUrl?: string): Promise<void> {
+    if (imageUrl) {
+      try {
+        const match = imageUrl.match(/\/storage\/v1\/object\/public\/project-images\/(.+)$/);
+        if (match && match[1]) {
+          const filePath = match[1];
+          const { error: storageError } = await supabase
+            .storage
+            .from('project-images')
+            .remove([filePath]);
+
+          if (storageError) {
+            console.error('Failed to delete image from storage', storageError);
+          }
+        }
+      } catch (e) {
+        console.error('Error parsing image URL for deletion', e);
+      }
+    }
+
     const { error } = await supabase
       .from('projects')
       .delete()
