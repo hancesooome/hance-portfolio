@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Send, Github, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 export const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [projectType, setProjectType] = useState('Graphic Design');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const subject = encodeURIComponent(`New ${projectType} inquiry from ${name || 'Portfolio visitor'}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\n` +
+      `Email: ${email}\n` +
+      `Project type: ${projectType}\n\n` +
+      `Message:\n${message}`
+    );
+
+    window.location.href = `mailto:hancedagondon@gmail.com?subject=${subject}&body=${body}`;
+  };
+
   return (
     <div className="pt-32 pb-20 px-6 min-h-screen bg-midnight">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -51,7 +70,7 @@ export const Contact = () => {
           animate={{ opacity: 1, x: 0 }}
           className="glass p-10 rounded-3xl"
         >
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-xs font-mono text-warm-gray/30 uppercase tracking-widest">Name</label>
@@ -59,6 +78,8 @@ export const Contact = () => {
                   type="text" 
                   placeholder="John Doe"
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-orange-vibrant/50 transition-all"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -67,17 +88,24 @@ export const Contact = () => {
                   type="email" 
                   placeholder="john@example.com"
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-orange-vibrant/50 transition-all"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
               <label className="text-xs font-mono text-warm-gray/30 uppercase tracking-widest">Project Type</label>
-              <select className="w-full bg-midnight border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-orange-vibrant/50 transition-all">
-                <option className="bg-midnight text-white">Graphic Design</option>
-                <option className="bg-midnight text-white">Creative Development</option>
-                <option className="bg-midnight text-white">CX Consulting</option>
-                <option className="bg-midnight text-white">Something Else</option>
+              <select
+                className="w-full bg-midnight border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-orange-vibrant/50 transition-all"
+                value={projectType}
+                onChange={(e) => setProjectType(e.target.value)}
+              >
+                <option className="bg-midnight text-white" value="Graphic Design">Graphic Design</option>
+                <option className="bg-midnight text-white" value="Creative Development">Creative Development</option>
+                <option className="bg-midnight text-white" value="CX Consulting">CX Consulting</option>
+                <option className="bg-midnight text-white" value="Something Else">Something Else</option>
               </select>
             </div>
 
@@ -87,10 +115,16 @@ export const Contact = () => {
                 rows={5}
                 placeholder="Tell me about your project..."
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-orange-vibrant/50 transition-all resize-none"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
               />
             </div>
 
-            <button className="w-full py-5 bg-orange-vibrant text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-orange-vibrant/90 transition-all group">
+            <button
+              type="submit"
+              className="w-full py-5 bg-orange-vibrant text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-orange-vibrant/90 transition-all group"
+            >
               Send Message <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </button>
           </form>
