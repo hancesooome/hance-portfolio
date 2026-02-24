@@ -33,7 +33,7 @@ export const Home = () => {
   return (
     <div className="bg-gradient-mesh min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen lg:h-screen flex items-center px-6 overflow-hidden pt-24 lg:pt-0">
+      <section className="relative min-h-screen lg:h-screen flex items-center px-6 overflow-hidden pt-16 md:pt-24 lg:pt-0">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
