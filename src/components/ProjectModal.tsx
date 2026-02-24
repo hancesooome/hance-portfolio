@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ExternalLink, Briefcase, Wrench, Target, Layers, CheckCircle2, Image as ImageIcon } from 'lucide-react';
 import { Project, cn } from '../types';
@@ -10,6 +10,8 @@ interface ProjectModalProps {
 
 export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
   if (!project) return null;
+
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   return (
     <AnimatePresence>
@@ -72,6 +74,33 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                     {project.description}
                   </p>
                 </section>
+
+                {project.galleryImages && project.galleryImages.length > 0 && (
+                  <section>
+                    <h3 className="text-sm font-mono text-warm-gray/30 uppercase tracking-widest mb-6 flex items-center gap-2">
+                      <Layers size={14} /> Project Images
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {project.galleryImages.map((img, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setActiveImage(img)}
+                          className="relative aspect-video rounded-xl overflow-hidden bg-white/5 group"
+                        >
+                          <img
+                            src={img}
+                            alt={`${project.title} image ${idx + 1}`}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-midnight/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-xs font-mono text-white/80">
+                            Click to view
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                )}
 
                 {/* Detailed Sections */}
                 {project.problem && (
@@ -143,6 +172,31 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
               </div>
             </div>
           </div>
+
+          {activeImage && (
+            <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+              <div
+                className="absolute inset-0 bg-midnight/90 backdrop-blur"
+                onClick={() => setActiveImage(null)}
+              />
+              <div className="relative max-w-3xl w-full">
+                <button
+                  type="button"
+                  onClick={() => setActiveImage(null)}
+                  className="absolute -top-10 right-0 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
+                >
+                  <X size={20} />
+                </button>
+                <div className="w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10">
+                  <img
+                    src={activeImage}
+                    alt="Project image preview"
+                    className="w-full h-full object-contain max-h-[70vh] bg-midnight"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
     </AnimatePresence>

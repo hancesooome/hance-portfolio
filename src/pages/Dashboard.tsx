@@ -19,11 +19,14 @@ export const Dashboard = () => {
     problem: '',
     process: '',
     outcome: '',
-    link: ''
+    link: '',
+    galleryImages: []
   });
   const [loading, setLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryFileInputRef = useRef<HTMLInputElement>(null);
+  const [galleryUrlInput, setGalleryUrlInput] = useState('');
 
   useEffect(() => {
     console.log("Supabase Config Check:", {
@@ -52,7 +55,10 @@ export const Dashboard = () => {
   };
 
   const handleEdit = (project: Project) => {
-    setEditForm(project);
+    setEditForm({
+      ...project,
+      galleryImages: project.galleryImages || []
+    });
     setToolsInput(project.tools.join(', '));
     setIsModalOpen(true);
   };
@@ -68,7 +74,8 @@ export const Dashboard = () => {
       problem: '',
       process: '',
       outcome: '',
-      link: ''
+      link: '',
+      galleryImages: []
     });
     setToolsInput('');
     setIsModalOpen(true);
@@ -77,7 +84,17 @@ export const Dashboard = () => {
   const handleSave = async () => {
     try {
       const tools = toolsInput.split(',').map(t => t.trim()).filter(t => t !== '');
-      const projectData = { ...editForm, tools } as Omit<Project, 'id'>;
+      
+      if (!editForm.image || editForm.image.trim() === '') {
+        alert("Cover Photo is required.");
+        return;
+      }
+
+      const projectData = { 
+        ...editForm, 
+        tools,
+        galleryImages: editForm.galleryImages || []
+      } as Omit<Project, 'id'>;
       
       console.log('Saving project data:', projectData);
 
@@ -151,6 +168,40 @@ export const Dashboard = () => {
     } catch (error) {
       console.error("Upload failed", error);
       alert("Upload failed. Check console for details. Make sure your Supabase bucket 'project-images' is public.");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      let imageUrl = '';
+      if (isSupabaseConfigured) {
+        imageUrl = await supabaseService.uploadImage(file);
+      } else {
+        const formData = new FormData();
+        formData.append('image', file);
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await response.json();
+        imageUrl = data.url;
+      }
+      
+      if (imageUrl) {
+        setEditForm(prev => ({
+          ...prev,
+          galleryImages: [...(prev.galleryImages || []), imageUrl]
+        }));
+      }
+    } catch (error) {
+      console.error("Gallery upload failed", error);
+      alert("Gallery upload failed. Check console for details.");
     } finally {
       setIsUploading(false);
     }
@@ -285,7 +336,7 @@ export const Dashboard = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-mono text-warm-gray/30 uppercase tracking-widest">Image</label>
+                  <label className="text-xs font-mono text-warm-gray/30 uppercase tracking-widest">Cover Photo (required)</label>
                   <div className="flex flex-col gap-4">
                     {editForm.image && (
                       <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-white/5 border border-white/10">
@@ -321,6 +372,72 @@ export const Dashboard = () => {
                         {isUploading ? <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Upload size={20} />}
                       </button>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-mono text-warm-gray/30 uppercase tracking-widest">Project Images (optional)</label>
+                <div className="space-y-3">
+                  {editForm.galleryImages && editForm.galleryImages.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {editForm.galleryImages.map((img, idx) => (
+                        <div key={idx} className="relative aspect-video rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                          <img src={img} alt={`Project image ${idx + 1}`} className="w-full h-full object-cover" />
+                          <button
+                            onClick={() => setEditForm(prev => ({
+                              ...prev,
+                              galleryImages: (prev.galleryImages || []).filter((_, i) => i !== idx)
+                            }))}
+                            className="absolute top-2 right-2 p-1 bg-midnight/80 text-white rounded-full hover:bg-midnight transition-all"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="flex flex-col md:flex-row gap-3">
+                    <input
+                      className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-vibrant/50 transition-all"
+                      value={galleryUrlInput}
+                      onChange={e => setGalleryUrlInput(e.target.value)}
+                      placeholder="Paste image URL and click Add"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const url = galleryUrlInput.trim();
+                        if (!url) return;
+                        setEditForm(prev => ({
+                          ...prev,
+                          galleryImages: [...(prev.galleryImages || []), url]
+                        }));
+                        setGalleryUrlInput('');
+                      }}
+                      className="px-4 bg-white/5 border border-white/10 rounded-xl text-warm-gray/50 hover:text-white hover:border-white/20 transition-all text-sm"
+                    >
+                      Add URL
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="file"
+                      ref={galleryFileInputRef}
+                      onChange={handleGalleryUpload}
+                      className="hidden"
+                      accept="image/*"
+                      multiple={false}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => galleryFileInputRef.current?.click()}
+                      disabled={isUploading}
+                      className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-warm-gray/50 hover:text-white hover:border-white/20 transition-all flex items-center gap-2 text-sm"
+                    >
+                      {isUploading ? <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Upload size={16} />}
+                      Upload Image
+                    </button>
                   </div>
                 </div>
               </div>

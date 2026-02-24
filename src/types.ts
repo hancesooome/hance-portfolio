@@ -13,6 +13,7 @@ export interface Project {
   tools: string[];
   description: string;
   image: string;
+  galleryImages?: string[];
   outcome?: string;
   process?: string;
   problem?: string;

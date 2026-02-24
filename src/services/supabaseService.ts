@@ -10,9 +10,12 @@ export const supabaseService = {
     
     if (error) throw error;
     
-    return (data || []).map(p => ({
+    return (data || []).map((p: any) => ({
       ...p,
-      tools: typeof p.tools === 'string' ? JSON.parse(p.tools) : p.tools
+      tools: typeof p.tools === 'string' ? JSON.parse(p.tools) : p.tools,
+      galleryImages: p.gallery_images
+        ? (typeof p.gallery_images === 'string' ? JSON.parse(p.gallery_images) : p.gallery_images)
+        : []
     })) as Project[];
   },
 
@@ -20,8 +23,19 @@ export const supabaseService = {
     const { data, error } = await supabase
       .from('projects')
       .insert([{
-        ...project,
-        tools: JSON.stringify(project.tools)
+        title: project.title,
+        category: project.category,
+        role: project.role,
+        tools: JSON.stringify(project.tools),
+        description: project.description,
+        image: project.image,
+        problem: project.problem,
+        process: project.process,
+        outcome: project.outcome,
+        link: project.link,
+        gallery_images: project.galleryImages && project.galleryImages.length
+          ? JSON.stringify(project.galleryImages)
+          : null
       }])
       .select()
       .single();
@@ -31,9 +45,13 @@ export const supabaseService = {
   },
 
   async updateProject(id: string, project: Partial<Project>): Promise<void> {
-    const updateData = { ...project };
+    const updateData: any = { ...project };
     if (project.tools) {
-      updateData.tools = JSON.stringify(project.tools) as any;
+      updateData.tools = JSON.stringify(project.tools);
+    }
+    if (project.galleryImages) {
+      updateData.gallery_images = JSON.stringify(project.galleryImages);
+      delete updateData.galleryImages;
     }
 
     const { error } = await supabase
