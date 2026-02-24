@@ -33,7 +33,7 @@ export const Navbar = () => {
     )}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter">
-          HANCE<span className="text-orange-vibrant">.</span>DAGONDON
+          hances<span className="text-gradient">oo</span>me
         </Link>
 
         {/* Desktop Nav */}
@@ -95,7 +95,7 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="md:col-span-2">
           <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter mb-6 block">
-            HANCE<span className="text-orange-vibrant">.</span>DAGONDON
+            hances<span className="text-gradient">oo</span>me
           </Link>
           <p className="text-warm-gray/50 max-w-sm mb-8">
             Designing with intention. Building with feeling. Supporting with empathy.
