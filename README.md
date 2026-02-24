@@ -1,20 +1,106 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+👋 Hi, I'm Hance Dagondon
 
-# Run and deploy your AI Studio app
+Frontend Developer in progress | IT Graduate | Building real projects while learning
 
-This contains everything you need to run your app locally.
+I build web applications while learning the fundamentals deeply. Currently focused on JavaScript and React, with plans to master the MERN stack.
 
-View your app in AI Studio: https://ai.studio/apps/24c374e6-4730-468f-ab32-e0f12fd431e3
+🚀 About Me
 
-## Run Locally
+🎓 IT Graduate
 
-**Prerequisites:**  Node.js
+💻 Currently learning React and modern frontend development
 
+🛠 Building projects to strengthen real-world skills
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+🎯 Goal: Become a professional Frontend Developer
+
+I believe in learning by building, not just watching tutorials.
+
+🧠 Currently Learning
+
+JavaScript (Deep fundamentals)
+
+React
+
+Responsive Web Design
+
+Component-based architecture
+
+Authentication systems (User & Admin logic)
+
+🛠 Tech Stack
+
+Frontend:
+
+HTML
+
+CSS
+
+JavaScript
+
+React
+
+Tools:
+
+Git
+
+GitHub
+
+VS Code
+
+Figma
+
+(You can add more as you grow.)
+
+📌 Featured Project
+🗂 Online Capstone Thesis Archive (OCTA)
+
+A web-based thesis archive system designed for students and faculty.
+
+Features:
+
+Landing page with search and filter
+
+Login system (Student / Admin)
+
+Upload thesis
+
+Role-based permissions
+
+Profile management
+
+Responsive layout
+
+Built using:
+
+Vanilla JavaScript (learning-focused version)
+
+Planned upgrade:
+
+React frontend
+
+Node.js + Express backend
+
+MongoDB database
+
+📈 My Development Philosophy
+
+I focus on:
+
+Clean UI
+
+Logical structure
+
+Real-world functionality
+
+Continuous improvement
+
+📫 Connect With Me
+
+You can add:
+
+LinkedIn
+
+Portfolio Website
+
+Email
