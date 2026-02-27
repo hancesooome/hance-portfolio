@@ -100,20 +100,29 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
 
   if (!award) return null;
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
+    <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6"
+      >
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
           onClick={onClose}
-          className="absolute inset-0 bg-midnight/90 backdrop-blur-xl"
+          className="absolute inset-0 bg-midnight/95"
         />
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: 0.94, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          exit={{ opacity: 0, scale: 0.94, y: 24 }}
+          transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="relative w-full max-w-4xl max-h-[90vh] bg-midnight border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col"
+          style={{ contain: 'layout paint' }}
         >
           <button
             onClick={onClose}
@@ -127,6 +136,7 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
               <img
                 src={award.cover}
                 alt=""
+                decoding="async"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent" />
@@ -163,6 +173,8 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
                   <img
                     src={award.art}
                     alt="Award entry"
+                    decoding="async"
+                    loading="lazy"
                     className="w-full h-auto object-cover"
                   />
                 </button>
@@ -191,6 +203,8 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
                         <img
                           src={photo}
                           alt={`Documentation ${idx + 1}`}
+                          decoding="async"
+                          loading="lazy"
                           className="w-full h-auto object-cover"
                         />
                       </button>
@@ -202,14 +216,27 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
           </div>
         </motion.div>
 
+        <AnimatePresence>
         {activeImage && (
-          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+          >
             <div
-              className="absolute inset-0 bg-midnight/95 backdrop-blur"
+              className="absolute inset-0 bg-midnight/98"
               onClick={closeLightbox}
               aria-hidden
             />
-            <div className="relative max-w-4xl w-full flex items-center gap-2">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="relative max-w-4xl w-full flex items-center gap-2"
+            >
               {galleryImages && galleryIndex > 0 && (
                 <button
                   type="button"
@@ -239,6 +266,7 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
                 <img
                   src={activeImage}
                   alt="Preview"
+                  decoding="async"
                   className="w-full h-auto max-h-[75vh] object-contain bg-midnight"
                 />
               </div>
@@ -247,11 +275,12 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
                   {galleryIndex + 1} / {galleryImages.length}
                 </p>
               )}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
-      </div>
-    </AnimatePresence>
+        </AnimatePresence>
+      </motion.div>
+    </>
   );
 };
 
@@ -281,7 +310,7 @@ export const Awards = () => {
               type="button"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
+              transition={{ delay: i * 0.08, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
               onClick={() => setSelectedAward(award)}
               className="glass rounded-3xl overflow-hidden text-left group hover:border-orange-vibrant/30 transition-all flex cursor-pointer"
             >
@@ -289,7 +318,9 @@ export const Awards = () => {
                 <img
                   src={award.thumbnail}
                   alt=""
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  decoding="async"
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Trophy className="text-orange-vibrant" size={14} />
@@ -310,7 +341,15 @@ export const Awards = () => {
         </div>
       </div>
 
-      <AwardModal award={selectedAward} onClose={() => setSelectedAward(null)} />
+      <AnimatePresence>
+        {selectedAward && (
+          <AwardModal
+            key={`${selectedAward.event}-${selectedAward.date}`}
+            award={selectedAward}
+            onClose={() => setSelectedAward(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
