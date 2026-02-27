@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Trophy, ExternalLink, X, ChevronRight } from 'lucide-react';
+import { Trophy, ExternalLink, X, ChevronRight, ChevronLeft } from 'lucide-react';
 
 export type AwardItem = {
   title: string;
@@ -51,6 +51,53 @@ const AWARDS: AwardItem[] = [
 ];
 
 const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () => void }) => {
+  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [galleryImages, setGalleryImages] = useState<string[] | null>(null);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  const openDocumentationGallery = (photos: string[], index: number) => {
+    setGalleryImages(photos);
+    setGalleryIndex(index);
+    setActiveImage(photos[index]);
+  };
+
+  const openSingleImage = (src: string) => {
+    setGalleryImages(null);
+    setGalleryIndex(0);
+    setActiveImage(src);
+  };
+
+  const closeLightbox = () => {
+    setActiveImage(null);
+    setGalleryImages(null);
+    setGalleryIndex(0);
+  };
+
+  const goPrev = () => {
+    if (!galleryImages || galleryIndex <= 0) return;
+    const nextIndex = galleryIndex - 1;
+    setGalleryIndex(nextIndex);
+    setActiveImage(galleryImages[nextIndex]);
+  };
+
+  const goNext = () => {
+    if (!galleryImages || galleryIndex >= galleryImages.length - 1) return;
+    const nextIndex = galleryIndex + 1;
+    setGalleryIndex(nextIndex);
+    setActiveImage(galleryImages[nextIndex]);
+  };
+
+  useEffect(() => {
+    if (!activeImage) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') goPrev();
+      if (e.key === 'ArrowRight') goNext();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeImage, galleryImages, galleryIndex]);
+
   if (!award) return null;
   return (
     <AnimatePresence>
@@ -108,18 +155,17 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
 
               <section>
                 <h3 className="text-sm font-mono text-warm-gray/30 uppercase tracking-widest mb-4">Competition entry</h3>
-                <a
-                  href={award.art}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block rounded-2xl overflow-hidden border border-white/10"
+                <button
+                  type="button"
+                  onClick={() => openSingleImage(award.art)}
+                  className="block w-full rounded-2xl overflow-hidden border border-white/10 text-left"
                 >
                   <img
                     src={award.art}
                     alt="Award entry"
                     className="w-full h-auto object-cover"
                   />
-                </a>
+                </button>
               </section>
 
               {award.explanation && (
@@ -136,19 +182,18 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
                   <h3 className="text-sm font-mono text-warm-gray/30 uppercase tracking-widest mb-4">Documentation</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {award.documentationPhotos.map((photo, idx) => (
-                      <a
+                      <button
                         key={idx}
-                        href={photo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block rounded-2xl overflow-hidden border border-white/10"
+                        type="button"
+                        onClick={() => openDocumentationGallery(award.documentationPhotos!, idx)}
+                        className="block w-full rounded-2xl overflow-hidden border border-white/10 text-left"
                       >
                         <img
                           src={photo}
                           alt={`Documentation ${idx + 1}`}
                           className="w-full h-auto object-cover"
                         />
-                      </a>
+                      </button>
                     ))}
                   </div>
                 </section>
@@ -156,6 +201,55 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
             </div>
           </div>
         </motion.div>
+
+        {activeImage && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+            <div
+              className="absolute inset-0 bg-midnight/95 backdrop-blur"
+              onClick={closeLightbox}
+              aria-hidden
+            />
+            <div className="relative max-w-4xl w-full flex items-center gap-2">
+              {galleryImages && galleryIndex > 0 && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                  className="absolute left-2 md:-left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+              )}
+              {galleryImages && galleryIndex < galleryImages.length - 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goNext(); }}
+                  className="absolute right-2 md:-right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={closeLightbox}
+                className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center z-10"
+              >
+                <X size={20} />
+              </button>
+              <div className="rounded-2xl overflow-hidden bg-white/5 border border-white/10 w-full">
+                <img
+                  src={activeImage}
+                  alt="Preview"
+                  className="w-full h-auto max-h-[75vh] object-contain bg-midnight"
+                />
+              </div>
+              {galleryImages && (
+                <p className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-warm-gray/40 font-mono">
+                  {galleryIndex + 1} / {galleryImages.length}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </AnimatePresence>
   );
