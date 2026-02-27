@@ -7,7 +7,8 @@ import { Work } from './pages/Work';
 import { About } from './pages/About';
 import { Services } from './pages/Services';
 import { Contact } from './pages/Contact';
-import { Playground } from './pages/Playground';
+import { Awards } from './pages/Awards';
+import { Certificates } from './pages/Certificates';
 import { Dashboard } from './pages/Dashboard';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -42,7 +43,8 @@ export default function App() {
               <Route path="/work" element={<PageWrapper><Work /></PageWrapper>} />
               <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
               <Route path="/services" element={<PageWrapper><Services /></PageWrapper>} />
-              <Route path="/playground" element={<PageWrapper><Playground /></PageWrapper>} />
+              <Route path="/awards" element={<PageWrapper><Awards /></PageWrapper>} />
+              <Route path="/certificates" element={<PageWrapper><Certificates /></PageWrapper>} />
               <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
               <Route path="/dashboard" element={<PageWrapper><Dashboard /></PageWrapper>} />
             </Routes>

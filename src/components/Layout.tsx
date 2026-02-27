@@ -20,9 +20,10 @@ export const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Work', path: '/work' },
-    { name: 'About', path: '/about' },
+    { name: 'Awards', path: '/awards' },
+    { name: 'Certificates', path: '/certificates' },
     { name: 'Services', path: '/services' },
-    { name: 'Playground', path: '/playground' },
+    { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -113,9 +114,10 @@ export const Footer = () => {
           <h4 className="text-white font-display font-semibold mb-6 uppercase tracking-widest text-xs">Navigation</h4>
           <ul className="space-y-4">
             <li><Link to="/work" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Work</Link></li>
-            <li><Link to="/about" className="text-warm-gray/50 hover:text-white transition-colors text-sm">About</Link></li>
+            <li><Link to="/awards" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Awards</Link></li>
+            <li><Link to="/certificates" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Certificates</Link></li>
             <li><Link to="/services" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Services</Link></li>
-            <li><Link to="/playground" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Playground</Link></li>
+            <li><Link to="/about" className="text-warm-gray/50 hover:text-white transition-colors text-sm">About</Link></li>
             <li><Link to="/dashboard" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Dashboard</Link></li>
           </ul>
         </div>
