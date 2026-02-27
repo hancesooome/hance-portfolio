@@ -139,13 +139,34 @@ const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () =
                 decoding="async"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent" />
-              <div className="absolute bottom-8 left-8 md:left-12">
-                <span className="text-xs font-mono text-orange-vibrant uppercase tracking-widest mb-2 block">
-                  {award.event}
-                </span>
-                <p className="text-warm-gray/50 text-sm mb-1">{award.tagline} • {award.date}</p>
-                <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tighter">{award.title}</h2>
+              {/* Stronger gradient so text area is always dark */}
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-midnight from-40% via-midnight/80 via-55% to-transparent"
+                aria-hidden
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-8 pt-24 md:p-12 md:pt-28">
+                {/* Scrim behind text for consistent contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight/90 to-transparent" aria-hidden />
+                <div className="relative">
+                  <span
+                    className="text-xs font-mono uppercase tracking-widest mb-2 block text-white"
+                    style={{ textShadow: '0 1px 2px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.5)' }}
+                  >
+                    {award.event}
+                  </span>
+                  <p
+                    className="text-warm-gray/90 text-sm mb-1"
+                    style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.4)' }}
+                  >
+                    {award.tagline} • {award.date}
+                  </p>
+                  <h2
+                    className="text-3xl md:text-5xl font-bold text-white tracking-tighter"
+                    style={{ textShadow: '0 2px 4px rgba(0,0,0,0.9), 0 4px 20px rgba(0,0,0,0.6)' }}
+                  >
+                    {award.title}
+                  </h2>
+                </div>
               </div>
             </div>
 
