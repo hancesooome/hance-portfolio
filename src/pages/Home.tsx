@@ -109,12 +109,18 @@ export const Home = () => {
 
         {/* Scroll Indicator */}
         <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-warm-gray/30"
+          animate={{ y: [0, 12, 0] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
         >
-          <span className="text-[10px] uppercase tracking-widest font-mono">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-orange-vibrant/50 to-transparent" />
+          <span className="text-[10px] uppercase tracking-[0.3em] font-mono text-warm-gray/40">Scroll</span>
+          <div className="relative h-14 w-6 rounded-full border border-white/10 bg-white/5 flex justify-center pt-2">
+            <motion.div
+              animate={{ y: [0, 20, 0] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1.5 h-3 rounded-full bg-gradient-to-b from-orange-vibrant to-orange-vibrant/40"
+            />
+          </div>
         </motion.div>
       </section>
 

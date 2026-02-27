@@ -46,3 +46,28 @@
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+/* Custom scrollbar for modals and overflow areas */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 87, 34, 0.4) rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 87, 34, 0.5), rgba(255, 152, 0, 0.3));
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 87, 34, 0.7), rgba(255, 152, 0, 0.5));
+}

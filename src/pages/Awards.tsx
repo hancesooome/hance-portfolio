@@ -1,8 +1,169 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Award, Trophy } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Trophy, ExternalLink, X, ChevronRight } from 'lucide-react';
+
+export type AwardItem = {
+  title: string;
+  event: string;
+  tagline: string;
+  date: string;
+  thumbnail: string;
+  cover: string;
+  art: string;
+  resultUrl?: string;
+  explanation?: string;
+  documentationPhotos?: string[];
+};
+
+const AWARDS: AwardItem[] = [
+  {
+    title: 'Digital Arts Open Competition — 2nd Place',
+    event: '11th Iligan City Computing Fair',
+    tagline: 'More than Computing',
+    date: 'September 2013',
+    thumbnail: 'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/13thumbnail.png',
+    cover: 'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/13cover.jfif',
+    art: 'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/13art.jpg',
+    resultUrl: 'https://www.facebook.com/photo/?fbid=592925707417892',
+    explanation: 'The competition theme “More than Computing” asked us to show how technology reaches beyond the screen. My piece is divided into four panels, each showing a different way computing serves people in the real world: (1) as a tool that makes traditional work easier and more efficient, (2) in solving crimes and supporting justice, (3) in connecting people and communities through social media, and (4) in graphic design and visual communication. Together, the panels highlight that computing is not only about machines—it’s about enabling creativity, connection, and impact in everyday life.',
+    documentationPhotos: [
+      'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/13photo.jpg',
+      'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/13photo2.jpg',
+    ],
+  },
+  {
+    title: 'Digital Arts Open Competition — 2nd Place',
+    event: '13th Iligan City Computing Fair',
+    tagline: 'GAME ON! IT\'S LUCKY YEAR 13',
+    date: 'September 2015',
+    thumbnail: 'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15thumbnail.jfif',
+    cover: 'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15cover.jfif',
+    art: 'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15art.jfif',
+    explanation: 'The theme “GAME ON! IT’S LUCKY YEAR 13” led me to think about games first—but I wanted a twist. Robotics was advancing quickly, so I imagined 2015 as a moment when you could design and build your own robot right on your computer: pick the parts, colors, and style, then when you’re ready—game on. The piece is about that idea: your robot coming to life from your desk, no factory needed. It’s play and possibility, powered by computing.',
+    documentationPhotos: [
+      'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15photo.jpg',
+      'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15photo1.jpg',
+      'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15photo2.jpg',
+      'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15photo3.jpg',
+      'https://domzxwzidventnxpasof.supabase.co/storage/v1/object/public/project-images/15photo4.jpg',
+    ],
+  },
+];
+
+const AwardModal = ({ award, onClose }: { award: AwardItem | null; onClose: () => void }) => {
+  if (!award) return null;
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="absolute inset-0 bg-midnight/90 backdrop-blur-xl"
+        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          className="relative w-full max-w-4xl max-h-[90vh] bg-midnight border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col"
+        >
+          <button
+            onClick={onClose}
+            className="absolute top-6 right-6 z-10 w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-full flex items-center justify-center transition-all"
+          >
+            <X size={24} />
+          </button>
+
+          <div className="overflow-y-auto custom-scrollbar">
+            <div className="relative w-full aspect-video md:aspect-[21/9]">
+              <img
+                src={award.cover}
+                alt=""
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent" />
+              <div className="absolute bottom-8 left-8 md:left-12">
+                <span className="text-xs font-mono text-orange-vibrant uppercase tracking-widest mb-2 block">
+                  {award.event}
+                </span>
+                <p className="text-warm-gray/50 text-sm mb-1">{award.tagline} • {award.date}</p>
+                <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tighter">{award.title}</h2>
+              </div>
+            </div>
+
+            <div className="p-8 md:p-12 space-y-8">
+              {award.resultUrl && (
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href={award.resultUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-orange-vibrant text-white rounded-full font-medium hover:bg-orange-vibrant/90 transition-all"
+                  >
+                    Winner results <ExternalLink size={18} />
+                  </a>
+                </div>
+              )}
+
+              <section>
+                <h3 className="text-sm font-mono text-warm-gray/30 uppercase tracking-widest mb-4">Competition entry</h3>
+                <a
+                  href={award.art}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-2xl overflow-hidden border border-white/10"
+                >
+                  <img
+                    src={award.art}
+                    alt="Award entry"
+                    className="w-full h-auto object-cover"
+                  />
+                </a>
+              </section>
+
+              {award.explanation && (
+                <section>
+                  <h3 className="text-sm font-mono text-warm-gray/30 uppercase tracking-widest mb-4">About this piece</h3>
+                  <p className="text-warm-gray/60 leading-relaxed">
+                    {award.explanation}
+                  </p>
+                </section>
+              )}
+
+              {award.documentationPhotos && award.documentationPhotos.length > 0 && (
+                <section>
+                  <h3 className="text-sm font-mono text-warm-gray/30 uppercase tracking-widest mb-4">Documentation</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {award.documentationPhotos.map((photo, idx) => (
+                      <a
+                        key={idx}
+                        href={photo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block rounded-2xl overflow-hidden border border-white/10"
+                      >
+                        <img
+                          src={photo}
+                          alt={`Documentation ${idx + 1}`}
+                          className="w-full h-auto object-cover"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+};
 
 export const Awards = () => {
+  const [selectedAward, setSelectedAward] = useState<AwardItem | null>(null);
+
   return (
     <div className="pt-32 pb-20 px-6 min-h-screen bg-midnight">
       <div className="max-w-7xl mx-auto">
@@ -19,41 +180,43 @@ export const Awards = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Placeholder – replace with your awards */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="glass p-8 rounded-3xl flex gap-6"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-orange-vibrant/10 flex items-center justify-center shrink-0">
-              <Award className="text-orange-vibrant" size={28} />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2">Award name</h3>
-              <p className="text-xs font-mono text-orange-vibrant uppercase tracking-widest mb-2">Year • Organization</p>
-              <p className="text-warm-gray/50 text-sm">Short description of what this award was for.</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="glass p-8 rounded-3xl flex gap-6"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-orange-vibrant/10 flex items-center justify-center shrink-0">
-              <Trophy className="text-orange-vibrant" size={28} />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2">Another award</h3>
-              <p className="text-xs font-mono text-orange-vibrant uppercase tracking-widest mb-2">Year • Organization</p>
-              <p className="text-warm-gray/50 text-sm">Add your real awards here.</p>
-            </div>
-          </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {AWARDS.map((award, i) => (
+            <motion.button
+              key={`${award.event}-${award.date}`}
+              type="button"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              onClick={() => setSelectedAward(award)}
+              className="glass rounded-3xl overflow-hidden text-left group hover:border-orange-vibrant/30 transition-all flex cursor-pointer"
+            >
+              <div className="w-28 sm:w-32 shrink-0 aspect-square relative">
+                <img
+                  src={award.thumbnail}
+                  alt=""
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Trophy className="text-orange-vibrant" size={14} />
+                </div>
+              </div>
+              <div className="p-5 flex flex-col justify-center min-w-0 flex-1">
+                <span className="text-[10px] font-mono text-orange-vibrant uppercase tracking-widest">
+                  {award.event}
+                </span>
+                <p className="text-white font-bold text-base mt-1 line-clamp-2">{award.title}</p>
+                <p className="text-warm-gray/40 text-xs mt-1">{award.date}</p>
+                <span className="inline-flex items-center gap-1 mt-3 text-xs font-medium text-orange-vibrant group-hover:gap-2 transition-all">
+                  View details <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                </span>
+              </div>
+            </motion.button>
+          ))}
         </div>
       </div>
+
+      <AwardModal award={selectedAward} onClose={() => setSelectedAward(null)} />
     </div>
   );
 };
