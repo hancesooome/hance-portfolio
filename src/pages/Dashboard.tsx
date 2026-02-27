@@ -318,7 +318,7 @@ export const Dashboard = () => {
                   >
                     <option className="bg-midnight text-white" value="Branding">Branding</option>
                     <option className="bg-midnight text-white" value="Digital Art">Digital Art</option>
-                    <option className="bg-midnight text-white" value="UI/UX">UI/UX</option>
+                    <option className="bg-midnight text-white" value="Logo Design">Logo Design</option>
                     <option className="bg-midnight text-white" value="Creative Code">Creative Code</option>
                     <option className="bg-midnight text-white" value="Support">Support</option>
                   </select>

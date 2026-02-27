@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export interface Project {
   id: string;
   title: string;
-  category: 'Branding' | 'Digital Art' | 'UI/UX' | 'Creative Code' | 'Support';
+  category: 'Branding' | 'Digital Art' | 'Logo Design' | 'Creative Code' | 'Support';
   role: string;
   tools: string[];
   description: string;

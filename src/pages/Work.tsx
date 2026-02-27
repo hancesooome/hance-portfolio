@@ -11,7 +11,7 @@ export const Work = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const categories = ['All', 'Branding', 'Digital Art', 'UI/UX', 'Creative Code', 'Support'];
+  const categories = ['All', 'Branding', 'Digital Art', 'Logo Design', 'Creative Code', 'Support'];
 
   useEffect(() => {
     const fetchProjects = async () => {
