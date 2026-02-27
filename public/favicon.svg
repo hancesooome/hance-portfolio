@@ -4,7 +4,7 @@
       <stop offset="0%" stop-color="#FF5722"/>
       <stop offset="100%" stop-color="#FF9800"/>
     </linearGradient>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&amp;display=swap');</style>
   </defs>
-  <rect width="32" height="32" fill="#0A0A0A"/>
-  <text x="16" y="22" text-anchor="middle" font-size="22" font-weight="bold" fill="url(#favicon-grad)" style="font-family: system-ui, sans-serif;"></text>
+  <text x="16" y="20" text-anchor="middle" dominant-baseline="middle" font-size="52" font-weight="700" font-family="Space Grotesk, sans-serif" fill="url(#favicon-grad)">&#8734;</text>
 </svg>
