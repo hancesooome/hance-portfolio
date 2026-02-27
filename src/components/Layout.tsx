@@ -32,8 +32,8 @@ export const Navbar = () => {
       scrolled ? "bg-midnight/80 backdrop-blur-md border-b border-white/5 py-3" : "bg-transparent"
     )}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter">
-          hances<span className="text-gradient">oo</span>me
+        <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter inline-flex items-baseline">
+          hances<span className="text-gradient inline-block text-[1.45em] leading-none align-baseline translate-y-[0.18em]" style={{ fontFamily: 'inherit' }}>∞</span>me
         </Link>
 
         {/* Desktop Nav */}
@@ -94,8 +94,8 @@ export const Footer = () => {
     <footer className="bg-midnight border-t border-white/5 pt-20 pb-10 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="md:col-span-2">
-          <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter mb-6 block">
-            hances<span className="text-gradient">oo</span>me
+          <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter mb-6 block inline-flex items-baseline">
+            hances<span className="text-gradient inline-block text-[1.45em] leading-none align-baseline translate-y-[0.18em]" style={{ fontFamily: 'inherit' }}>∞</span>me
           </Link>
           <p className="text-warm-gray/50 max-w-sm mb-8">
             Designing with intention. Building with feeling. Supporting with empathy.
