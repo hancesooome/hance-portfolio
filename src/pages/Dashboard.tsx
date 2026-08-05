@@ -307,19 +307,23 @@ export const Dashboard = () => {
                 setIsSavingOrder(true);
                 try {
                   const orderedIds = projects.map(p => p.id);
+                  console.log('Saving project order:', orderedIds);
                   if (isSupabaseConfigured) {
                     await supabaseService.reorderProjects(orderedIds);
                   } else {
-                    await fetch('/api/projects-reorder', {
+                    const response = await fetch('/api/projects-reorder', {
                       method: 'PUT',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({ order: orderedIds }),
                     });
+                    if (!response.ok) throw new Error('API returned non-ok status');
                   }
+                  console.log('Order saved successfully');
                   setOrderChanged(false);
+                  alert('✓ Project order saved successfully!');
                 } catch (error) {
-                  console.error('Failed to save order', error);
-                  alert('Failed to save project order');
+                  console.error('Failed to save order:', error);
+                  alert(`Failed to save project order: ${error instanceof Error ? error.message : 'Unknown error'}`);
                 } finally {
                   setIsSavingOrder(false);
                 }

@@ -30,11 +30,19 @@ export const supabaseService = {
 
   async reorderProjects(orderedIds: string[]): Promise<void> {
     // Persist the new order by updating sort_order for each project
-    await Promise.all(
+    const results = await Promise.all(
       orderedIds.map((id, index) =>
         supabase.from('projects').update({ sort_order: index }).eq('id', id)
       )
     );
+
+    // Check for errors in any of the updates
+    for (const result of results) {
+      if (result.error) {
+        console.error('Failed to update sort_order:', result.error);
+        throw new Error(`Failed to save project order: ${result.error.message}`);
+      }
+    }
   },
 
 
