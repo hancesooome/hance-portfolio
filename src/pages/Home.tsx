@@ -133,17 +133,17 @@ export const Home = () => {
             <IdentityBlock 
               icon={<Palette className="text-orange-vibrant" size={32} />}
               title="Graphic Designer"
-              description="Visual identity and branding for UTP Beyond Borders, focusing on impactful digital storytelling."
+              description="Created visual identities and digital experiences for UTP Beyond Borders, combining creativity with purposeful storytelling."
             />
             <IdentityBlock 
               icon={<Users className="text-orange-vibrant" size={32} />}
-              title="Customer Service Pro"
-              description="Expert support for Target USA (247.ai) and Coles Australia (Probegroup), delivering human-centric solutions."
+              title="Customer Experience Specialist"
+              description="Delivered human-centered support solutions for Target USA (247.ai) and Coles Australia (Probegroup), developing strong communication and problem-solving skills."
             />
             <IdentityBlock 
               icon={<Code className="text-orange-vibrant" size={32} />}
-              title="Vibe Coder"
-              description="Creative coding and interactive UI that bridges the gap between design and technical execution."
+              title="Frontend Developer"
+              description="Building modern, responsive web experiences that combine clean design, intuitive interfaces, and thoughtful user experiences."
             />
           </div>
         </div>

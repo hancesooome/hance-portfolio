@@ -114,9 +114,11 @@ export const Work = () => {
                     <span className="text-xs font-mono text-orange-vibrant uppercase tracking-widest mb-2 block">{project.category}</span>
                     <h3 className="text-3xl font-bold text-white mb-2">{project.title}</h3>
                     <p className="text-warm-gray/50 mb-4">{project.description}</p>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-x-2 gap-y-2 max-w-full">
                       {project.tools.map(tool => (
-                        <span key={tool} className="text-[10px] text-warm-gray/30 uppercase tracking-wider">{tool}</span>
+                        <span key={tool} className="inline-flex items-center px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] leading-none text-warm-gray/40 uppercase tracking-wider whitespace-nowrap">
+                          {tool}
+                        </span>
                       ))}
                     </div>
                   </div>
