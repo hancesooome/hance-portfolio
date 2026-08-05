@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { SERVICES } from '../constants';
-import { Palette, Code, Users, CheckCircle2 } from 'lucide-react';
+import { Palette, Code, Users, Sparkles, CheckCircle2 } from 'lucide-react';
 
 const icons: Record<string, any> = {
   Palette,
   Code,
-  Users
+  Users,
+  Sparkles
 };
 
 export const Services = () => {
@@ -57,7 +58,7 @@ export const Services = () => {
                     <p className="text-white font-medium">{service.timeline}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-mono text-warm-gray/30 uppercase tracking-widest">Investment</p>
+                    <p className="text-[10px] font-mono text-warm-gray/30 uppercase tracking-widest">Starting From</p>
                     <p className="text-orange-vibrant font-bold">{service.price}</p>
                   </div>
                 </div>

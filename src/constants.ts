@@ -69,30 +69,30 @@ export const SKILLS: Skill[] = [
 export const SERVICES: Service[] = [
   {
     id: '1',
-    title: 'Graphic Design',
-    description: 'Crafting visual identities that resonate with your audience.',
-    deliverables: ['Branding Packages', 'Social Media Kits', 'Logo Systems'],
-    timeline: '2-4 weeks',
-    price: 'Starting at $500',
+    title: 'UI/UX & Product Design',
+    description: 'Designing intuitive digital experiences that are beautiful, accessible, and built around real user needs.',
+    deliverables: ['User Interface Design', 'Design Systems', 'Responsive Prototypes', 'UX Improvements'],
+    timeline: '2–4 Weeks',
+    price: '$500',
     icon: 'Palette'
   },
   {
     id: '2',
-    title: 'Customer Experience',
-    description: 'Optimizing support systems for maximum human impact.',
-    deliverables: ['Support Strategy', 'Tone-of-Voice', 'Client Journey'],
-    timeline: 'Project-based',
-    price: 'Starting at $300',
-    icon: 'Users'
+    title: 'Frontend Development',
+    description: 'Building fast, responsive, and scalable web applications with modern technologies and clean code.',
+    deliverables: ['React Applications', 'Landing Pages', 'Dashboard Interfaces', 'Performance Optimization'],
+    timeline: '3–6 Weeks',
+    price: '$800',
+    icon: 'Code'
   },
   {
     id: '3',
-    title: 'Creative Development',
-    description: 'Building interactive experiences that bridge art and code.',
-    deliverables: ['Interactive UI', 'Motion Design', 'Web Builds'],
-    timeline: '4-8 weeks',
-    price: 'Starting at $1,000',
-    icon: 'Code'
+    title: 'AI-Powered Web Solutions',
+    description: 'Integrating modern AI capabilities into web applications to automate workflows and deliver smarter user experiences.',
+    deliverables: ['AI Integration', 'Prompt Engineering', 'AI Chat Interfaces', 'Workflow Automation'],
+    timeline: '4–8 Weeks',
+    price: '$1,200',
+    icon: 'Sparkles'
   }
 ];
 

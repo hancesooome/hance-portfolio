@@ -33,18 +33,18 @@ export const Home = () => {
   return (
     <div className="bg-gradient-mesh min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen lg:h-screen flex items-center px-6 overflow-hidden pt-16 md:pt-24 lg:pt-0">
+      <section className="relative min-h-screen lg:h-screen flex items-center px-6 overflow-hidden pt-8 md:pt-12 lg:pt-0">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-orange-vibrant/10 border border-orange-vibrant/20 text-orange-vibrant text-xs font-mono mb-6">
-              DESIGNER • SUPPORT • VIBE CODER
+            <span className="inline-block px-4 py-1.5 rounded-full bg-orange-vibrant/10 border border-orange-vibrant/20 text-orange-vibrant text-[10px] font-mono tracking-[0.15em] mb-6">
+              WEB DEVELOPER • UI/UX • SUPPORT
             </span>
-            <h1 className="text-6xl md:text-8xl font-display font-bold text-white leading-[0.9] tracking-tighter mb-8">
-              I design experiences, <span className="text-gradient">code interactions</span>, and support people.
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[1.1] tracking-tight mb-8">
+              I design. <span className="text-gradient">I code.</span> I solve problems.
             </h1>
             <div className="flex flex-wrap gap-4">
               <Link to="/work" className="px-8 py-4 bg-orange-vibrant text-white rounded-full font-medium hover:bg-orange-vibrant/90 transition-all flex items-center group">
