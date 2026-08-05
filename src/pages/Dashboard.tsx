@@ -1,11 +1,69 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
-import { Plus, Edit2, Trash2, Save, X, Image as ImageIcon, Upload, Database } from 'lucide-react';
+import { motion, Reorder, useDragControls } from 'motion/react';
+import { Plus, Edit2, Trash2, Save, X, Image as ImageIcon, Upload, Database, GripVertical } from 'lucide-react';
+
 import { Project, cn } from '../types';
 import { supabaseService } from '../services/supabaseService';
 import { isSupabaseConfigured, effectiveSupabaseUrl, effectiveSupabaseKey } from '../lib/supabase';
 
+interface ProjectItemProps {
+  key?: React.Key;
+  project: Project;
+  onEdit: (project: Project) => void;
+  onDelete: (project: Project) => void;
+}
+
+
+const ProjectItem = ({ project, onEdit, onDelete }: ProjectItemProps) => {
+  const dragControls = useDragControls();
+
+  return (
+    <Reorder.Item
+      value={project}
+      dragListener={false}
+      dragControls={dragControls}
+      className="glass p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-start md:items-center"
+    >
+      <button
+        onPointerDown={(e) => dragControls.start(e)}
+        className="cursor-grab active:cursor-grabbing p-2 hover:bg-white/5 rounded-lg transition-colors touch-none"
+      >
+        <GripVertical size={20} className="text-warm-gray/30" />
+      </button>
+
+      <div className="w-full md:w-32 aspect-video rounded-xl overflow-hidden bg-white/5 flex items-center justify-center">
+        {project.image ? (
+          <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+        ) : (
+          <ImageIcon className="text-white/20" />
+        )}
+      </div>
+
+      <div className="flex-1">
+        <div>
+          <div className="flex items-center gap-3 mb-1">
+            <h3 className="text-xl font-bold text-white">{project.title}</h3>
+            <span className="text-[10px] uppercase tracking-widest text-orange-vibrant font-mono">{project.category}</span>
+          </div>
+          <p className="text-sm text-warm-gray/50 mb-2">{project.role}</p>
+          <p className="text-xs text-warm-gray/30 line-clamp-1">{project.description}</p>
+        </div>
+      </div>
+
+      <div className="flex gap-2">
+        <button onClick={() => onEdit(project)} className="p-3 bg-white/5 text-white/50 rounded-xl hover:bg-white/10 transition-all">
+          <Edit2 size={20} />
+        </button>
+        <button onClick={() => onDelete(project)} className="p-3 bg-red-500/20 text-red-500 rounded-xl hover:bg-red-500/30 transition-all">
+          <Trash2 size={20} />
+        </button>
+      </div>
+    </Reorder.Item>
+  );
+};
+
 export const Dashboard = () => {
+
   const [projects, setProjects] = useState<Project[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toolsInput, setToolsInput] = useState('');
@@ -24,9 +82,12 @@ export const Dashboard = () => {
   });
   const [loading, setLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
+  const [orderChanged, setOrderChanged] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const galleryFileInputRef = useRef<HTMLInputElement>(null);
   const [galleryUrlInput, setGalleryUrlInput] = useState('');
+
 
   useEffect(() => {
     console.log("Supabase Config Check:", {
@@ -238,43 +299,68 @@ export const Dashboard = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
-          {projects.map((project) => (
-            <motion.div 
-              key={project.id}
-              layout
-              className="glass p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-start md:items-center"
+        {orderChanged && (
+          <div className="mb-6 p-4 glass rounded-2xl flex items-center justify-between">
+            <p className="text-sm text-warm-gray/50">You have unsaved changes to the project order</p>
+            <button
+              onClick={async () => {
+                setIsSavingOrder(true);
+                try {
+                  const orderedIds = projects.map(p => p.id);
+                  if (isSupabaseConfigured) {
+                    await supabaseService.reorderProjects(orderedIds);
+                  } else {
+                    await fetch('/api/projects-reorder', {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ order: orderedIds }),
+                    });
+                  }
+                  setOrderChanged(false);
+                } catch (error) {
+                  console.error('Failed to save order', error);
+                  alert('Failed to save project order');
+                } finally {
+                  setIsSavingOrder(false);
+                }
+              }}
+              disabled={isSavingOrder}
+              className="flex items-center gap-2 px-4 py-2 bg-orange-vibrant text-white rounded-full font-medium hover:bg-orange-vibrant/90 transition-all disabled:opacity-50"
             >
-              <div className="w-full md:w-32 aspect-video rounded-xl overflow-hidden bg-white/5 flex items-center justify-center">
-                {project.image ? (
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
-                ) : (
-                  <ImageIcon className="text-white/20" />
-                )}
-              </div>
+              {isSavingOrder ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save size={16} />
+                  Save Order
+                </>
+              )}
+            </button>
+          </div>
+        )}
 
-              <div className="flex-1">
-                <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                    <span className="text-[10px] uppercase tracking-widest text-orange-vibrant font-mono">{project.category}</span>
-                  </div>
-                  <p className="text-sm text-warm-gray/50 mb-2">{project.role}</p>
-                  <p className="text-xs text-warm-gray/30 line-clamp-1">{project.description}</p>
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                <button onClick={() => handleEdit(project)} className="p-3 bg-white/5 text-white/50 rounded-xl hover:bg-white/10 transition-all">
-                  <Edit2 size={20} />
-                </button>
-                <button onClick={() => handleDelete(project)} className="p-3 bg-red-500/20 text-red-500 rounded-xl hover:bg-red-500/30 transition-all">
-                  <Trash2 size={20} />
-                </button>
-              </div>
-            </motion.div>
+        <Reorder.Group
+          axis="y"
+          values={projects}
+          onReorder={(newOrder) => {
+            setProjects(newOrder);
+            setOrderChanged(true);
+          }}
+          className="grid grid-cols-1 gap-6"
+        >
+          {projects.map((project) => (
+            <ProjectItem
+              key={project.id}
+              project={project}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
           ))}
-        </div>
+        </Reorder.Group>
+
       </div>
 
       {/* Edit/Add Modal */}

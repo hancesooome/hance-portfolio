@@ -3,13 +3,20 @@ import { Project } from '../types';
 
 export const supabaseService = {
   async getProjects(): Promise<Project[]> {
-    const { data, error } = await supabase
+    // Try ordering by sort_order. If that column doesn't exist yet in the
+    // Supabase table, the query errors — fall back to an unordered fetch so
+    // projects still display.
+    let { data, error } = await supabase
       .from('projects')
       .select('*')
-      .order('title');
-    
-    if (error) throw error;
-    
+      .order('sort_order', { ascending: true, nullsFirst: false });
+
+    if (error) {
+      console.warn('Ordering by sort_order failed (column may not exist yet); fetching unordered.', error.message);
+      ({ data, error } = await supabase.from('projects').select('*'));
+      if (error) throw error;
+    }
+
     return (data || []).map((p: any) => ({
       ...p,
       tools: typeof p.tools === 'string' ? JSON.parse(p.tools) : p.tools,
@@ -18,6 +25,18 @@ export const supabaseService = {
         : []
     })) as Project[];
   },
+
+
+
+  async reorderProjects(orderedIds: string[]): Promise<void> {
+    // Persist the new order by updating sort_order for each project
+    await Promise.all(
+      orderedIds.map((id, index) =>
+        supabase.from('projects').update({ sort_order: index }).eq('id', id)
+      )
+    );
+  },
+
 
   async addProject(project: Omit<Project, 'id'>): Promise<string> {
     const { data, error } = await supabase

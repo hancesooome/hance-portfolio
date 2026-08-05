@@ -34,7 +34,8 @@ async function startServer() {
   // API Routes
   app.get("/api/projects", (req, res) => {
     try {
-      const projects = db.prepare("SELECT * FROM projects").all();
+      const projects = db.prepare("SELECT * FROM projects ORDER BY sort_order ASC, rowid ASC").all();
+
       // Parse tools from string back to array
       const parsedProjects = projects.map((p: any) => ({
         ...p,
@@ -50,16 +51,39 @@ async function startServer() {
     const { title, category, role, tools, description, image, problem, process, outcome } = req.body;
     const id = Math.random().toString(36).substring(2, 11); // Simple ID
     try {
+      // Place new projects at the end of the current ordering
+      const maxRow = db.prepare("SELECT MAX(sort_order) as maxOrder FROM projects").get() as { maxOrder: number | null };
+      const nextOrder = (maxRow?.maxOrder ?? -1) + 1;
       db.prepare(`
-        INSERT INTO projects (id, title, category, role, tools, description, image, problem, process, outcome)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `).run(id, title, category, role, JSON.stringify(tools), description, image, problem, process, outcome);
+        INSERT INTO projects (id, title, category, role, tools, description, image, problem, process, outcome, sort_order)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(id, title, category, role, JSON.stringify(tools), description, image, problem, process, outcome, nextOrder);
       res.status(201).json({ id, ...req.body });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Failed to create project" });
     }
   });
+
+  // Reorder projects - expects { order: string[] } array of project ids in new order
+  app.put("/api/projects-reorder", (req, res) => {
+    const { order } = req.body as { order: string[] };
+    if (!Array.isArray(order)) {
+      return res.status(400).json({ error: "'order' must be an array of project ids" });
+    }
+    try {
+      const update = db.prepare("UPDATE projects SET sort_order = ? WHERE id = ?");
+      const runAll = db.transaction((ids: string[]) => {
+        ids.forEach((id, index) => update.run(index, id));
+      });
+      runAll(order);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Failed to reorder projects", error);
+      res.status(500).json({ error: "Failed to reorder projects" });
+    }
+  });
+
 
   app.put("/api/projects/:id", (req, res) => {
     const { id } = req.params;

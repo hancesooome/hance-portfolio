@@ -18,7 +18,9 @@ export interface Project {
   process?: string;
   problem?: string;
   link?: string;
+  sort_order?: number;
 }
+
 
 export interface Testimonial {
   id: string;
