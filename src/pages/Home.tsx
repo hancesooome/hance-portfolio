@@ -33,7 +33,7 @@ export const Home = () => {
   return (
     <div className="bg-gradient-mesh min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen lg:h-screen flex items-center px-6 overflow-hidden pt-8 md:pt-12 lg:pt-0">
+      <section className="relative min-h-screen lg:h-screen flex items-center px-6 overflow-hidden pt-0 md:pt-1 lg:pt-0">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -44,9 +44,9 @@ export const Home = () => {
               WEB DEVELOPER • UI/UX • SUPPORT
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[1.1] tracking-tight mb-8">
-              <span className="block">I <span className="text-orange-vibrant">design</span> experiences.</span>
-              <span className="block">I <span className="text-orange-vibrant">code</span> solutions.</span>
-              <span className="block">I <span className="text-orange-vibrant">solve</span> problems.</span>
+              <span className="block"><span className="text-orange-vibrant">I design</span> experiences.</span>
+              <span className="block"><span className="text-orange-vibrant">I code</span> solutions.</span>
+              <span className="block"><span className="text-orange-vibrant">I solve</span> problems.</span>
             </h1>
             <div className="flex flex-wrap gap-4">
               <Link to="/work" className="px-8 py-4 bg-orange-vibrant text-white rounded-full font-medium hover:bg-orange-vibrant/90 transition-all flex items-center group">
@@ -110,20 +110,20 @@ export const Home = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+        {/* <motion.div
+          animate={{ y: [0, 16, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 flex flex-col items-center gap-3"
         >
           <span className="text-[10px] uppercase tracking-[0.3em] font-mono text-warm-gray/40">Scroll</span>
           <div className="relative h-14 w-6 rounded-full border border-white/10 bg-white/5 flex justify-center pt-2">
             <motion.div
-              animate={{ y: [0, 20, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1.5 h-3 rounded-full bg-gradient-to-b from-orange-vibrant to-orange-vibrant/40"
+              animate={{ y: [0, 24, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1.5 h-3 rounded-full bg-gradient-to-b from-orange-vibrant to-orange-vibrant/40 shadow-lg shadow-orange-vibrant/50"
             />
           </div>
-        </motion.div>
+        </motion.div> */}
       </section>
 
       {/* Identity Section */}
