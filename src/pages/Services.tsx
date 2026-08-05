@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { SERVICES } from '../constants';
 import { Palette, Code, Users, Sparkles, CheckCircle2 } from 'lucide-react';
+import { EASE_OUT_CUBIC, cardEnter, hoverLift, motionTimings } from '../lib/motion';
 
 const icons: Record<string, any> = {
   Palette,
@@ -15,8 +16,10 @@ export const Services = () => {
     <div className="pt-32 pb-20 px-6 min-h-screen bg-midnight">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={cardEnter}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: motionTimings.normal, ease: EASE_OUT_CUBIC }}
           className="mb-20 text-center"
         >
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tighter">My <span className="text-gradient">Services</span></h1>
@@ -31,10 +34,12 @@ export const Services = () => {
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="glass p-10 rounded-3xl flex flex-col"
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: motionTimings.normal, delay: i * 0.06, ease: EASE_OUT_CUBIC }}
+                whileHover={hoverLift}
+                className="glass p-10 rounded-3xl flex flex-col transition-transform duration-200 will-change-transform"
               >
                 <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-orange-vibrant mb-8">
                   <Icon size={32} />

@@ -29,7 +29,7 @@ export const Navbar = () => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 py-4",
+      "fixed top-0 left-0 w-full z-60 transition-all duration-300 px-6 py-4",
       scrolled ? "bg-midnight/80 backdrop-blur-md border-b border-white/5 py-3" : "bg-transparent"
     )}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -55,8 +55,9 @@ export const Navbar = () => {
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden text-white p-2"
+          className="md:hidden text-white p-2 relative z-60"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle navigation"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -69,7 +70,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-midnight border-b border-white/5 p-6 md:hidden flex flex-col space-y-4"
+            className="absolute top-full left-0 w-full bg-midnight border-b border-white/5 p-6 md:hidden flex flex-col space-y-4 z-60"
           >
             {navLinks.map((link) => (
               <NavLink

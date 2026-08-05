@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Award, FileCheck, ExternalLink } from 'lucide-react';
+import { EASE_OUT_CUBIC, cardEnter, hoverLift, motionTimings } from '../lib/motion';
 
 const CERTIFICATES = [
   {
@@ -37,8 +38,10 @@ export const Certificates = () => {
     <div className="pt-32 pb-20 px-6 min-h-screen bg-midnight">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={cardEnter}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: motionTimings.normal, ease: EASE_OUT_CUBIC }}
           className="mb-20"
         >
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tighter">
@@ -55,17 +58,18 @@ export const Certificates = () => {
             return (
               <motion.div
                 key={cert.url}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="glass p-8 rounded-3xl flex flex-col gap-6"
+                transition={{ duration: motionTimings.normal, delay: i * 0.06, ease: EASE_OUT_CUBIC }}
+                whileHover={hoverLift}
+                className="glass p-8 rounded-3xl flex flex-col gap-6 transition-transform duration-200 will-change-transform"
               >
                 <div className="flex gap-6">
                   <a
                     href={cert.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="shrink-0 w-28 h-28 rounded-2xl overflow-hidden bg-white/5 border border-white/10 block relative"
+                    className="shrink-0 w-28 h-28 rounded-2xl overflow-hidden bg-white/5 border border-white/10 block relative transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-vibrant/60"
                   >
                     <img
                       src={cert.thumbnail}
@@ -94,7 +98,7 @@ export const Certificates = () => {
                   href={cert.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-orange-vibrant hover:underline mt-auto"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-orange-vibrant hover:underline mt-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-vibrant/60 rounded-md"
                 >
                   View certificate <ExternalLink size={14} />
                 </a>

@@ -47,6 +47,22 @@
   animation: float 6s ease-in-out infinite;
 }
 
+@layer components {
+  /* Reserve space at bottom on mobile so bottom nav doesn't overlap content */
+  .mobile-bottom-nav-space {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+
+  /* Glassmorphism style for bottom nav */
+  .bottom-nav-glass {
+    background: rgba(10,10,10,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  }
+}
+
 /* Custom scrollbar for modals and overflow areas */
 .custom-scrollbar {
   scrollbar-width: thin;
@@ -71,3 +87,4 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgba(255, 87, 34, 0.7), rgba(255, 152, 0, 0.5));
 }
+

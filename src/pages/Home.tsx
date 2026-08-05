@@ -44,7 +44,9 @@ export const Home = () => {
               WEB DEVELOPER • UI/UX • SUPPORT
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[1.1] tracking-tight mb-8">
-              I design. <span className="text-gradient">I code.</span> I solve problems.
+              <span className="block">I <span className="text-orange-vibrant">design</span> experiences.</span>
+              <span className="block">I <span className="text-orange-vibrant">code</span> solutions.</span>
+              <span className="block">I <span className="text-orange-vibrant">solve</span> problems.</span>
             </h1>
             <div className="flex flex-wrap gap-4">
               <Link to="/work" className="px-8 py-4 bg-orange-vibrant text-white rounded-full font-medium hover:bg-orange-vibrant/90 transition-all flex items-center group">

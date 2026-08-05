@@ -1,14 +1,17 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { MousePointer2, Sparkles, Zap, Waves } from 'lucide-react';
+import { EASE_OUT_CUBIC, cardEnter, hoverLift, motionTimings } from '../lib/motion';
 
 export const Playground = () => {
   return (
     <div className="pt-32 pb-20 px-6 min-h-screen bg-midnight overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={cardEnter}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: motionTimings.normal, ease: EASE_OUT_CUBIC }}
           className="mb-20"
         >
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tighter">The <span className="text-gradient">Playground</span></h1>
@@ -33,7 +36,7 @@ export const Playground = () => {
                   x: [0, 100, -50, 0],
                   y: [0, -50, 100, 0],
                 }}
-                transition={{ duration: 10, repeat: Infinity }}
+                transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
               />
               <div className="absolute inset-0 flex items-center justify-center text-white/20 font-mono text-xs">
                 MOVE YOUR MOUSE
@@ -57,7 +60,7 @@ export const Playground = () => {
                       opacity: [0.2, 0.8, 0.2],
                     }}
                     transition={{
-                      duration: 2 + Math.random() * 2,
+                      duration: 2.4 + Math.random() * 1.6,
                       repeat: Infinity,
                       delay: Math.random() * 2
                     }}
@@ -76,14 +79,16 @@ export const Playground = () => {
           >
             <div className="w-full h-full flex items-center justify-center gap-4">
               <motion.button
-                whileHover={{ scale: 1.1, x: 5, y: -5 }}
-                className="px-6 py-3 glass rounded-xl text-white font-medium"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-6 py-3 glass rounded-xl text-white font-medium transition-transform duration-200"
               >
                 Hover Me
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.1, x: -5, y: 5 }}
-                className="px-6 py-3 bg-orange-vibrant/20 border border-orange-vibrant/30 rounded-xl text-orange-vibrant font-medium"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-6 py-3 bg-orange-vibrant/20 border border-orange-vibrant/30 rounded-xl text-orange-vibrant font-medium transition-transform duration-200"
               >
                 Pull
               </motion.button>
@@ -102,7 +107,7 @@ export const Playground = () => {
                   skewX: [0, 10, -10, 0],
                   filter: ["blur(0px)", "blur(2px)", "blur(0px)"]
                 }}
-                transition={{ duration: 4, repeat: Infinity }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
                 className="text-4xl font-bold text-white tracking-widest"
               >
                 LIQUID
@@ -116,7 +121,7 @@ export const Playground = () => {
 };
 
 const PlaygroundCard = ({ title, description, icon, children }: { title: string, description: string, icon: React.ReactNode, children: React.ReactNode }) => (
-  <div className="glass p-8 rounded-3xl flex flex-col h-[400px]">
+  <motion.div whileHover={hoverLift} className="glass p-8 rounded-3xl flex flex-col h-[400px] transition-transform duration-200 will-change-transform">
     <div className="flex items-center gap-4 mb-4">
       {icon}
       <h3 className="text-xl font-bold text-white">{title}</h3>
@@ -125,5 +130,5 @@ const PlaygroundCard = ({ title, description, icon, children }: { title: string,
     <div className="flex-1 min-h-0">
       {children}
     </div>
-  </div>
+  </motion.div>
 );

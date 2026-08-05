@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ExternalLink, Briefcase, Wrench, Target, Layers, CheckCircle2, Image as ImageIcon } from 'lucide-react';
 import { Project, cn } from '../types';
+import { EASE_OUT_CUBIC, EASE_OUT_QUAD, modalBackdrop, modalPanel, motionTimings, hoverLift, tapShrink } from '../lib/motion';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -17,24 +18,28 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
     <AnimatePresence>
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          variants={modalBackdrop}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          transition={{ duration: motionTimings.normal, ease: EASE_OUT_QUAD }}
           onClick={onClose}
           className="absolute inset-0 bg-midnight/90 backdrop-blur-xl"
         />
         
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          variants={modalPanel}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          transition={{ duration: motionTimings.slow, ease: EASE_OUT_CUBIC }}
           className="relative w-full max-w-5xl max-h-[90vh] bg-midnight border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col"
         >
           {/* Header */}
           <div className="absolute top-6 right-6 z-10">
             <button 
               onClick={onClose}
-              className="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-full flex items-center justify-center transition-all"
+              className="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-[1.03] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-vibrant/60"
             >
               <X size={24} />
             </button>
@@ -91,9 +96,9 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                           <img
                             src={img}
                             alt={`${project.title} image ${idx + 1}`}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                           />
-                          <div className="absolute inset-0 bg-midnight/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-xs font-mono text-white/80">
+                          <div className="absolute inset-0 bg-midnight/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center text-xs font-mono text-white/80">
                             Click to view
                           </div>
                         </button>
@@ -163,7 +168,7 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                       href={project.link.startsWith('http') ? project.link : `https://${project.link}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 py-4 bg-orange-vibrant text-white rounded-xl font-bold hover:bg-orange-vibrant/90 transition-all"
+                      className="w-full inline-flex items-center justify-center gap-2 py-4 bg-orange-vibrant text-white rounded-xl font-bold hover:bg-orange-vibrant/90 transition-all duration-200 hover:scale-[1.01] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-vibrant/60"
                     >
                       Live Project <ExternalLink size={18} />
                     </a>
@@ -183,7 +188,7 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                 <button
                   type="button"
                   onClick={() => setActiveImage(null)}
-                  className="absolute -top-10 right-0 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
+                  className="absolute -top-10 right-0 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all duration-200 hover:scale-[1.03] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-vibrant/60"
                 >
                   <X size={20} />
                 </button>

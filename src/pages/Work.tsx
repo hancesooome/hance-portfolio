@@ -5,6 +5,7 @@ import { ExternalLink, ArrowRight, Image as ImageIcon } from 'lucide-react';
 import { ProjectModal } from '../components/ProjectModal';
 import { supabaseService } from '../services/supabaseService';
 import { isSupabaseConfigured } from '../lib/supabase';
+import { EASE_OUT_CUBIC, EASE_OUT_QUAD, cardEnter, hoverLift, motionTimings } from '../lib/motion';
 
 export const Work = () => {
   const [filter, setFilter] = useState('All');
@@ -43,8 +44,10 @@ export const Work = () => {
     <div className="pt-32 pb-20 px-6 min-h-screen bg-midnight">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          variants={cardEnter}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: motionTimings.normal, ease: EASE_OUT_CUBIC }}
           className="mb-20"
         >
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 tracking-tighter">Selected <span className="text-gradient">Works</span></h1>
@@ -60,10 +63,10 @@ export const Work = () => {
               key={cat}
               onClick={() => setFilter(cat)}
               className={cn(
-                "px-6 py-2 rounded-full text-sm font-medium transition-all border",
+                "px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-vibrant/60",
                 filter === cat 
                   ? "bg-orange-vibrant border-orange-vibrant text-white" 
-                  : "bg-white/5 border-white/10 text-warm-gray/50 hover:border-white/20"
+                  : "bg-white/5 border-white/10 text-warm-gray/50 hover:border-white/20 hover:bg-white/10"
               )}
             >
               {cat}
@@ -78,19 +81,21 @@ export const Work = () => {
               <motion.div
                 key={project.id}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98, y: 10 }}
+                transition={{ duration: motionTimings.normal, ease: EASE_OUT_CUBIC }}
                 className="group cursor-pointer"
                 onClick={() => setSelectedProject(project)}
+                whileHover={hoverLift}
+                whileTap={{ scale: 0.995 }}
               >
                 <div className="relative aspect-video rounded-3xl overflow-hidden mb-6">
                   {project.image ? (
                     <img 
                       src={project.image} 
                       alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                       referrerPolicy="no-referrer"
                     />
                   ) : (
@@ -98,8 +103,8 @@ export const Work = () => {
                       <ImageIcon className="text-white/20" size={48} />
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-midnight/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-midnight scale-0 group-hover:scale-100 transition-transform duration-300">
+                  <div className="absolute inset-0 bg-midnight/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-midnight scale-0 group-hover:scale-100 transition-transform duration-200 ease-out">
                       <ExternalLink size={24} />
                     </div>
                   </div>
