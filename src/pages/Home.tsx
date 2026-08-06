@@ -138,7 +138,7 @@ export const Home = () => {
             <IdentityBlock 
               icon={<Users className="text-orange-vibrant" size={32} />}
               title="Customer Experience Specialist"
-              description="Delivered human-centered support solutions for Target USA (247.ai) and Coles Australia (Probegroup), developing strong communication and problem-solving skills."
+              description="Delivered human-centered support solutions for major US and Australian retail accounts (247.ai and Probegroup), developing strong communication and problem-solving skills."
             />
             <IdentityBlock 
               icon={<Code className="text-orange-vibrant" size={32} />}

@@ -15,7 +15,7 @@ export const About = () => {
               I'm Hance Dagondon, a multi-disciplinary creator living at the intersection of design, code, and human connection.
             </p>
             <p className="text-warm-gray/50 leading-relaxed mb-8">
-              My journey is defined by versatility. As a Graphic Designer at <strong>UTP Beyond Borders</strong>, I craft visual stories that resonate. In the realm of customer experience, I've supported major global brands like <strong>Target USA</strong> (via 247.ai) and <strong>Coles Australia</strong> (via Probegroup).
+              My journey is defined by versatility. As a Graphic Designer at <strong>UTP Beyond Borders</strong>, I craft visual stories that resonate. In the realm of customer experience, I've supported major global retail brands (via 247.ai and Probegroup).
             </p>
             <p className="text-warm-gray/50 leading-relaxed mb-8">
               I believe that the best digital products aren't just built with code or designed with pixels—they're nurtured with empathy. My background in high-stakes customer service allows me to anticipate user needs before they even happen.
@@ -48,7 +48,7 @@ export const About = () => {
           />
           <AboutCard 
             title="Customer Support" 
-            content="Extensive experience handling Target USA and Coles Australia accounts, mastering the art of communication." 
+            content="Extensive experience handling major US and Australian retail accounts, mastering the art of communication."
           />
           <AboutCard 
             title="Creative Tech" 
