@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
+import { effectivePublicSiteUrl, supabase } from '../lib/supabase';
 
 const AUTHORIZED_DASHBOARD_EMAIL = 'hancedagondon@gmail.com';
 
@@ -58,7 +58,7 @@ export const DashboardAuthProvider = ({ children }: { children: React.ReactNode 
       return { error: 'This dashboard is restricted to the site owner.' };
     }
 
-    const redirectTo = `${window.location.origin}/dashboard`;
+    const redirectTo = `${effectivePublicSiteUrl}/dashboard`;
     const { error } = await supabase.auth.signInWithOtp({
       email: normalizedEmail,
       options: { emailRedirectTo: redirectTo },
