@@ -1,0 +1,161 @@
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
+import { Menu, X, Github, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { cn } from '../types';
+import { useDashboardAuth } from '../context/DashboardAuth';
+
+export const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const { isAuthorized } = useDashboardAuth();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => setIsOpen(false), [location]);
+
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Work', path: '/work' },
+    { name: 'Awards', path: '/awards' },
+    { name: 'Certificates', path: '/certificates' },
+    { name: 'Services', path: '/services' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
+  return (
+    <nav className={cn(
+      "fixed top-0 left-0 w-full z-60 transition-all duration-300 px-6 py-4",
+      scrolled ? "bg-midnight/80 backdrop-blur-md border-b border-white/5 py-3" : "bg-transparent"
+    )}>
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter inline-flex items-baseline">
+          hances<span className="text-gradient inline-block text-[1.45em] leading-none align-baseline translate-y-[0.18em]" style={{ fontFamily: 'inherit' }}>∞</span>me
+        </Link>
+
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center space-x-8">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) => cn(
+                "text-sm font-medium transition-colors hover:text-orange-vibrant",
+                isActive ? "text-orange-vibrant" : "text-warm-gray/70"
+              )}
+            >
+              {link.name}
+            </NavLink>
+          ))}
+          <NavLink
+            to={isAuthorized ? '/dashboard' : '/dashboard/login'}
+            className={({ isActive }) => cn(
+              "text-sm font-medium transition-colors hover:text-orange-vibrant",
+              isActive ? "text-orange-vibrant" : "text-warm-gray/70"
+            )}
+          >
+            Admin
+          </NavLink>
+        </div>
+
+        {/* Mobile Toggle */}
+        <button 
+          className="md:hidden text-white p-2 relative z-60"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle navigation"
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 w-full bg-midnight border-b border-white/5 p-6 md:hidden flex flex-col space-y-4 z-60"
+          >
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) => cn(
+                  "text-lg font-medium transition-colors",
+                  isActive ? "text-orange-vibrant" : "text-warm-gray/70"
+                )}
+              >
+                {link.name}
+              </NavLink>
+            ))}
+            <NavLink
+              to={isAuthorized ? '/dashboard' : '/dashboard/login'}
+              className={({ isActive }) => cn(
+                "text-lg font-medium transition-colors",
+                isActive ? "text-orange-vibrant" : "text-warm-gray/70"
+              )}
+            >
+              Admin
+            </NavLink>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+};
+
+export const Footer = () => {
+  const { isAuthorized } = useDashboardAuth();
+
+  return (
+    <footer className="bg-midnight border-t border-white/5 pt-20 pb-10 px-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="md:col-span-2">
+          <Link to="/" className="text-2xl font-display font-bold text-white tracking-tighter mb-6 block inline-flex items-baseline">
+            hances<span className="text-gradient inline-block text-[1.45em] leading-none align-baseline translate-y-[0.18em]" style={{ fontFamily: 'inherit' }}>∞</span>me
+          </Link>
+          <p className="text-warm-gray/50 max-w-sm mb-8">
+            Designing with intention. Building with feeling. Supporting with empathy.
+            A multi-disciplinary approach to modern digital experiences.
+          </p>
+          <div className="flex space-x-4">
+            <a href="https://x.com/hancesoome" target="_blank" rel="noopener noreferrer" className="text-warm-gray/50 hover:text-orange-vibrant transition-colors"><Twitter size={20} /></a>
+            <a href="http://github.com/hancesooome" target="_blank" rel="noopener noreferrer" className="text-warm-gray/50 hover:text-orange-vibrant transition-colors"><Github size={20} /></a>
+            <a href="https://www.linkedin.com/in/hancesome/" target="_blank" rel="noopener noreferrer" className="text-warm-gray/50 hover:text-orange-vibrant transition-colors"><Linkedin size={20} /></a>
+            <a href="https://www.instagram.com/hancesoome/" target="_blank" rel="noopener noreferrer" className="text-warm-gray/50 hover:text-orange-vibrant transition-colors"><Instagram size={20} /></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-white font-display font-semibold mb-6 uppercase tracking-widest text-xs">Navigation</h4>
+          <ul className="space-y-4">
+            <li><Link to="/work" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Work</Link></li>
+            <li><Link to="/awards" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Awards</Link></li>
+            <li><Link to="/certificates" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Certificates</Link></li>
+            <li><Link to="/services" className="text-warm-gray/50 hover:text-white transition-colors text-sm">Services</Link></li>
+            <li><Link to="/about" className="text-warm-gray/50 hover:text-white transition-colors text-sm">About</Link></li>
+            <li><Link to={isAuthorized ? '/dashboard' : '/dashboard/login'} className="text-warm-gray/50 hover:text-white transition-colors text-sm">Admin</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="text-white font-display font-semibold mb-6 uppercase tracking-widest text-xs">Contact</h4>
+          <ul className="space-y-4">
+            <li className="text-warm-gray/50 text-sm">hancedagondon@gmail.com</li>
+          </ul>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 flex flex-col md:row justify-between items-center text-xs text-warm-gray/30">
+        <p>© {new Date().getFullYear()} Hance Dagondon. All rights reserved.</p>
+        <p className="mt-2 md:mt-0 italic">"Designed with intention. Built with feeling."</p>
+      </div>
+    </footer>
+  );
+};

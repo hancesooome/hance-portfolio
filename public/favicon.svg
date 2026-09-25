@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="favicon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5722"/>
+      <stop offset="100%" stop-color="#FF9800"/>
+    </linearGradient>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&amp;display=swap');</style>
+  </defs>
+  <text x="16" y="20" text-anchor="middle" dominant-baseline="middle" font-size="52" font-weight="700" font-family="Space Grotesk, sans-serif" fill="url(#favicon-grad)">&#8734;</text>
+</svg>
